@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncist.edu.crm.mapper.LostMapper">
+	
+	<insert id="addlostcus" parameterType="Lost">
+		insert into t_lost(cid,uname,pubtime) values(#{cid},#{uname},#{pubtime})
+	</insert>
+	<select id="findalllost" resultType="Lost">
+		select * from t_lost
+	</select>
+	<update id="updatereason">
+		update t_lost set reason=#{reason} where id=#{id}
+	</update>
+</mapper>

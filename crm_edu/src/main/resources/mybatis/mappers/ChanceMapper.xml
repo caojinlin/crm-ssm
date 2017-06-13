@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncist.edu.crm.mapper.ChanceMapper">
+	<insert id="addchance" parameterType="Chance">
+		insert into t_chance(source,title,pname,rate,resume,linkman,tel,des,createname,createtime,status) 
+		values(#{source},#{title},#{pname},#{rate},#{resume},#{linkman},#{tel},#{des},#{createname},#{createtime},0)
+	</insert>
+	
+	<select id="findchancelist" resultType="Chance">
+		select * from t_chance
+	</select>
+	
+	<delete id="delchance" >
+		delete from t_chance where id in(
+			<foreach collection="array" item="id" separator=",">
+				#{id}
+			</foreach>)
+	</delete>
+	
+	<select id="findchancesbyid" resultType="Chance">
+		select * from t_chance where id in(
+			<foreach collection="array" item="id" separator=",">
+			#{id}
+			</foreach>
+		)
+	</select>
+	<update id="updatadue" parameterType="Map">
+		update t_chance set duename=#{name},duetime=#{date},status=1 where id = #{id}
+	</update>
+	
+	<select id="findchancebyid" resultType="Chance">
+		select * from t_chance where id=#{id}
+	</select>
+	
+	<update id="updatechance" parameterType="Chance">
+		update t_chance set source=#{source},title=#{title},rate=${rate},pname=#{pname},resume=#{resume},
+			linkman=#{linkman},tel=#{tel},des=#{des} where id=#{id}
+	</update>
+	
+	<update id="upstatus" parameterType="Map">
+		update t_chance set status=#{status} where id=#{cid}
+	</update>
+	
+	<select id="findcusname" resultType="String">
+		select title from t_chance
+	</select>
+	<select id="findduename" resultType="String">
+		select duename from t_chance where title=#{name}
+	</select>
+	<select id="findchancebytitle" resultType="Chance">
+		select * from t_chance where title=#{name}
+	</select>
+	<select id="findchancebyduename" resultType="Chance">
+		select * from t_chance where duename=#{name} and status=1
+	</select>
+	<select id="finduserana" resultMap="pie">
+		SELECT duename NAME,COUNT(*) VALUE FROM t_chance GROUP BY duename
+	</select>
+	<resultMap type="PieStyle" id="pie">
+		<id column="name" property="name"/>
+		<result column="value" property="value"/>
+	</resultMap>
+</mapper>

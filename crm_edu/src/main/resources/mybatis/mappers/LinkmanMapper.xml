@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncist.edu.crm.mapper.LinkmanMapper">
+	
+	
+	<select id="findlinkmanbyid" resultType="Linkman">
+		 select * from t_linkman where cname=#{cname}
+	</select>
+	
+	<insert id="addlinkman" parameterType="Linkman">
+		insert into t_linkman(cname,pname,name,sex,postion,tel,mobile,memo) values(
+		#{cname},#{pname},#{name},#{sex},#{postion},#{tel},#{mobile},#{memo})
+	</insert>
+	
+	<select id="findlinkmanbylid" resultType="Linkman">
+		select * from t_linkman where id = #{lid}
+	</select>
+	<update id="updatelinkman" parameterType="Linkman">
+		update t_linkman set name=#{name},sex=#{sex},postion=#{postion},tel=#{tel},mobile=#{mobile},memo=#{memo} where id=#{id}
+	</update>
+	
+	<delete id="dellinkman">
+		delete from t_linkman where id in(
+		 <foreach collection="array" item="id" separator=",">
+			#{id}
+		</foreach>)
+	</delete>
+</mapper>

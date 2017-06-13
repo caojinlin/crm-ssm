@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncist.edu.crm.mapper.ServiceMapper">
+	
+	<!--查询用户信息  -->
+	
+	<insert id="addservice">
+		insert into t_service(type,title,cname,status,createname,createtime) values(#{type},#{title},#{cname},0,#{createname},#{createtime})
+	</insert>
+	<select id="findallservice" resultType="Service">
+		select * from t_service
+	</select>
+	<select id="findservicebyid" resultType="Service">
+		select * from t_service where id=#{id}
+	</select>
+	<update id="updatedue" >
+		update t_service set duename=#{duename},duetime=#{duetime},status=1  where id=#{id}
+	</update>
+	<update id="updatedeal">
+		update t_service set deal=#{deal},dealtime=#{date},status=2 where id=#{id}
+	</update>
+	<update id="updateresult">
+		update t_service set result=#{result},satisfy=#{satisfy},status=3 where id=#{id}
+	</update>
+	
+	<select id="findallfiling" resultType="Service">
+		select * from t_service where status =3
+	</select>
+	<select id="findbysearch" resultType="Service">
+		select * from t_service 
+		<where> 
+			status=3
+			<if test="type!=-1">and type=#{type}</if> 
+			<if test="cname!=null">and cname  LIKE CONCAT(CONCAT('%', #{cname}), '%')</if>
+		</where>
+	</select>
+	<select id="findservicebyname" resultType="Service">
+		select * from t_service where cname=#{cname}
+	</select>
+	<select id="findservicebyduename" resultType="Service">
+		select * from t_service where duename=#{name} and status=1
+	</select>
+	<select id="fnduserana" resultMap="pie">
+		SELECT duename NAME,COUNT(*) VALUE FROM t_service GROUP BY duename
+	</select>
+	<resultMap type="PieStyle" id="pie">
+		<id column="name" property="name"/>
+		<result column="value" property="value"/>
+	</resultMap>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncist.edu.crm.mapper.UserMapper">
+	
+	<!--查询用户信息  -->
+	<select id="finduserbyaccount" resultType="UserInfo">
+		 select * from t_user_info where account=#{account}
+	</select>
+	
+	<select id="findalluser" resultType="UserInfo">
+		 select * from t_user_info
+	</select>
+	<delete id="deluser">
+		delete from t_user_info where id in (
+		<foreach collection="array" item="id" separator=",">
+			#{id}
+		</foreach>)
+	</delete>
+	<insert id="adduser" parameterType="UserInfo">
+		insert into t_user_info(account,name,pwd,root,status) values(#{account},#{name},#{pwd},#{root},0)
+	</insert>
+	<select id="finduserbyid" resultType="UserInfo">
+		select * from t_user_info where id=#{id}
+	</select>
+	<update id="updateuser" parameterType="UserInfo">
+		update t_user_info set account=#{account},name=#{name},pwd=#{pwd},root=#{root} where id=#{id}
+	</update>
+	<update id="updatestatus">
+		update t_user_info set status=#{status} where id=#{id}
+	</update>
+	<update id="updatepwd">
+		update t_user_info set pwd=#{pwd} where id=#{id}
+	</update>
+</mapper>
